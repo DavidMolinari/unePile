@@ -13,6 +13,31 @@ namespace unePile
         private static void Main(string[] args)
         {
 
+            int nbr;
+            int baz;
+            Pile unePile;
+            InitPile(10);
+            unePile = InitPile(10);
+            nbr = 31;
+            baz = 16;
+
+            int quotien, reste;
+            string result;
+
+            do
+            {
+                quotien = nbr % baz;
+                reste = nbr / baz;
+                nbr = reste;
+                Empiler(ref unePile, Convert.ToString(quotien));
+            } while (reste > 0);
+
+            result = FormatResult(Depile(unePile));
+
+            Console.WriteLine(result);
+
+            Console.Read();
+
         }
         private class Pile
         {
@@ -37,7 +62,11 @@ namespace unePile
         /// <returns></returns>
         private static Pile InitPile(int maxValeurs)
         {
-            var unePile = new Pile();
+            var unePile = new Pile
+            {
+                listTab = new List<string>(maxValeurs),
+                MaxElt = Convert.ToString(maxValeurs)
+            };
             return unePile;
         }
 
@@ -46,7 +75,7 @@ namespace unePile
         /// </summary>
         /// <param name="unePile"></param>
         /// <returns></returns>
-        private static bool PileVide( Pile unePile)
+        private static bool PileVide(Pile unePile)
         {
             return unePile.listTab.Count == 0 ? true : false;
         }
@@ -56,9 +85,9 @@ namespace unePile
         /// </summary>
         /// <param name="unePile"></param>
         /// <returns></returns>
-        private static bool PilePleine (Pile unePile)
+        private static bool PilePleine(Pile unePile)
         {
-            return unePile.listTab.Count == int.Parse(unePile.MaxElt) ? true : false;
+            return unePile.listTab.Count == Convert.ToInt32(unePile.MaxElt);
         }
 
 
@@ -70,7 +99,7 @@ namespace unePile
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        private static int SaisirEntier ( int min, int max)
+        private static int SaisirEntier(int min, int max)
         {
             var valeur = int.Parse(Console.ReadLine());
             while (valeur < min && valeur > max)
@@ -94,5 +123,48 @@ namespace unePile
             else throw new Exception("La Pile est pleine");
 
         }
+        private static string FormatResult(string[] values)
+        {
+            string a = null;
+            foreach (var s in values)
+            {
+                // Si le nombre fait plus de deux char il faut convertire en hexa
+                if (s.Length >= 2)
+                {
+                    a += ToHex(s);
+                }
+                else
+                {
+                    a += s;
+                }
+            }
+            return a;
+        }
+        private static string[] Depile(Pile unePile)
+        {
+            var a = new string[unePile.listTab.Count];
+
+            if (PileVide(unePile)) throw new Exception("La pile est vide");
+            for (int i = unePile.listTab.Count - 1, j = 0; i >= 0; i--)
+            {
+                a[j] = unePile.listTab[i];
+                j++;
+            }
+            unePile.listTab.Clear();
+            return a;
+        }
+        private static string ToHex(string value)
+        {
+
+            int intValue = Convert.ToInt32(value);
+            string hexValue = intValue.ToString("X");
+
+            return hexValue;
+        }
+
+
     }
 }
+
+    
+
