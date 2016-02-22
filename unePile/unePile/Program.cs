@@ -10,14 +10,15 @@ namespace unePile
     class Program
 
     {
-        public static void Main(string[] args)
+        private static void Main(string[] args)
         {
 
         }
-        public class Pile
+        private class Pile
         {
-            private int maxElt;
-            public int MaxElt { get; set; }
+            // passage en string, marre de me casser la tête avec les conversions
+            private string maxElt;
+            public string MaxElt { get; set; }
 
             public List<string> listTab;
         }
@@ -34,7 +35,7 @@ namespace unePile
         /// </summary>
         /// <param name="maxValeurs"></param>
         /// <returns></returns>
-        public Pile InitPile(int maxValeurs)
+        private static Pile InitPile(int maxValeurs)
         {
             var unePile = new Pile();
             return unePile;
@@ -45,7 +46,7 @@ namespace unePile
         /// </summary>
         /// <param name="unePile"></param>
         /// <returns></returns>
-        public bool PileVide( Pile unePile)
+        private static bool PileVide( Pile unePile)
         {
             return unePile.listTab.Count == 0 ? true : false;
         }
@@ -55,9 +56,9 @@ namespace unePile
         /// </summary>
         /// <param name="unePile"></param>
         /// <returns></returns>
-        public bool PilePleine (Pile unePile)
+        private static bool PilePleine (Pile unePile)
         {
-            return unePile.listTab.Count == unePile.MaxElt ? true : false;
+            return unePile.listTab.Count == int.Parse(unePile.MaxElt) ? true : false;
         }
 
 
@@ -69,7 +70,7 @@ namespace unePile
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public int SaisirEntier ( int min, int max)
+        private static int SaisirEntier ( int min, int max)
         {
             var valeur = int.Parse(Console.ReadLine());
             while (valeur < min && valeur > max)
@@ -78,6 +79,19 @@ namespace unePile
                 valeur = int.Parse(Console.ReadLine());
             }
             return valeur;
+        }
+
+        /// <summary>
+        /// Fonction qui va empiler un entier 
+        /// </summary>
+        /// <param name="unePile"></param>
+        private static void Empiler(ref Pile unePile, string valEmp)
+        {
+            if (!PilePleine(unePile))
+            {
+                unePile.listTab.Add(valEmp);
+            }
+            else throw new Exception("La Pile est pleine");
 
         }
     }
