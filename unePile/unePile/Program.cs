@@ -61,5 +61,24 @@ namespace unePile
         }
 
 
+        /// <summary>
+        ///  Fonction qui va saisir un entier compris entre 2 nombres.
+        ///  
+        /// Int.Parse à revoir, pas sûr qu'elle soit vraiment necessaire. 
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public int SaisirEntier ( int min, int max)
+        {
+            var valeur = int.Parse(Console.ReadLine());
+            while (valeur < min && valeur > max)
+            {
+                Console.WriteLine("Veuillez saisir un entier compris entre" + min + " et " + max);
+                valeur = int.Parse(Console.ReadLine());
+            }
+            return valeur;
+
+        }
     }
 }
